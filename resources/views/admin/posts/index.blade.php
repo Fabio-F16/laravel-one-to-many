@@ -8,7 +8,9 @@
         @foreach ($posts as $post)
             <div class="ff-card">
                 <h1>{{ $post->title }}</h1>
+                <p> Categoria: {{ $post->category->name }}</p>
                 <p> {{ $post->content }}</p>
+
                 {{-- <a href="{{ route('admin.posts.edit', $post->id) }}">Modifica</a> --}}
                 <a class="btn btn-warning mb-4" href="{{ route('admin.posts.edit', $post->id) }}">Modifica</a>
                 <a class="btn btn-info mb-4" href="{{ route('admin.posts.show', $post->id) }}">Vedi nel dettaglio</a>
