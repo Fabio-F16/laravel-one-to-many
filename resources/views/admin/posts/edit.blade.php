@@ -14,6 +14,24 @@
                 @enderror
             </div>
 
+
+            {{-- select one to many category --}}
+            <div class="mb-3">
+                <label class="col-4" for="description">Categoria:</label>
+                <select name="category_id">
+                    <option value="">--Scegli categoria--</option>
+                    @foreach ($categories as $item)
+                        <option value="{{ $item->id }}"
+                            {{ $item->id == old('category_id', $post->category_id) ? 'selected' : '' }}>
+                            {{ $item->name }}
+                        </option>
+                    @endforeach
+                </select>
+                @error('category_id')
+                    <div class="text-danger">{{ $message }}</div>
+                @enderror
+            </div>
+
             <div class="mb-3">
                 <label class="col-4" for="description">Contenuto:</label>
                 <textarea class="col-4 text-area" name="content">{{ old('content', $post->content) }}</textarea>
