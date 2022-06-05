@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
 use App\Post;
+use App\Category;
 
 class PostController extends Controller
 {
@@ -19,6 +20,7 @@ class PostController extends Controller
     {
         //
         $posts = Post::all();
+
         return view('admin.posts.index', compact('posts'));
     }
 
@@ -30,7 +32,8 @@ class PostController extends Controller
     public function create()
     {
         //
-        return view('admin.posts.create');
+        $categories = Category::all();
+        return view('admin.posts.create', compact('categories'));
     }
 
     /**
@@ -45,9 +48,11 @@ class PostController extends Controller
         $request->validate([
             'title'=>'required|max:250',
             'content' => 'required',
+            'category_id' => 'exists:categories,id', // ci assicuriamo che o sia nulla o che esista
         ], [
             'title.required' => 'Il campo è obbligatorio',
-            'content.required' => 'Il campo è obbligatorio'
+            'content.required' => 'Il campo è obbligatorio',
+            'category_id.exists' => 'La categoria non esiste'
         ]);
 
         $postData = $request->all();
@@ -81,7 +86,8 @@ class PostController extends Controller
     {
         //
         $post = Post::findOrFail($id);
-        return view('admin.posts.show', compact('post'));
+        $category = Category::find($post->category_id); // per trovare la categoria
+        return view('admin.posts.show', compact('post', 'category'));
     }
 
     /**
@@ -94,7 +100,8 @@ class PostController extends Controller
     {
         //
         $post = Post::findOrFail($id);
-        return view('admin.posts.edit', compact('post'));
+        $categories = Category::all();
+        return view('admin.posts.edit', compact('post', 'categories'));
     }
 
     /**
@@ -110,9 +117,11 @@ class PostController extends Controller
         $request->validate([
             'title'=>'required|max:250',
             'content' => 'required',
+            'category_id' => 'exists:categories,id', // ci assicuriamo che o sia nulla o che esista
         ], [
             'title.required' => 'Il campo è obbligatorio',
-            'content.required' => 'Il campo è obbligatorio'
+            'content.required' => 'Il campo è obbligatorio',
+            'category_id.exist' => 'Campo obbligatorio'
         ]);
 
         $postData = $request->all();
