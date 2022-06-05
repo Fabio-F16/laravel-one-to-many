@@ -10,6 +10,7 @@
         <div class="ff-card">
 
             <h1>{{ $post->title }}</h1>
+            <p> {{ $category->name }}</p>
             <p> {{ $post->content }}</p>
 
 
