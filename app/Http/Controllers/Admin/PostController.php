@@ -86,8 +86,9 @@ class PostController extends Controller
     {
         //
         $post = Post::findOrFail($id);
-        $category = Category::find($post->category_id); // per trovare la categoria
-        return view('admin.posts.show', compact('post', 'category'));
+        // $category = Category::find($post->category_id); // per trovare la categoria
+        // return view('admin.posts.show', compact('post', 'category')); // senza interrogare category, in show utilizzo il metodoto category per recuperare il dato
+        return view('admin.posts.show', compact('post'));
     }
 
     /**
